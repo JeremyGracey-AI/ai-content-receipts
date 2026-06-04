@@ -35,3 +35,15 @@ secret storage — it is never written to the file.
 3. Paste the token when prompted.
 
 Requires a recent version of VS Code with MCP support (agent mode).
+
+### Troubleshooting
+
+- **`{"message":"Unauthenticated."}` on every call** — the server is running but
+  no valid token reached it. `HOSTINGER_API_TOKEN` is unset (so
+  `${HOSTINGER_API_TOKEN}` expands to an empty string) or holds an invalid token.
+  Set or correct it (see [Claude Code](#claude-code) above), then start a fresh
+  session. On Claude Code for the web the variable must live in the
+  **environment's** configuration — a shell `export` won't reach the
+  separately-spawned server process.
+- **Check whether the variable is set** without revealing its value:
+  `[ -n "$HOSTINGER_API_TOKEN" ] && echo set || echo unset`
