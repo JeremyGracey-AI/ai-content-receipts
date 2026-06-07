@@ -1,7 +1,7 @@
 # Receipts
 
 > An AI‑content **literacy** tool — not a forensic detector. Teachers, parents, and
-> teens use it to *learn how to judge media* It
+> teens use it to *learn how to judge media*, at an 8th‑grade reading level. It
 > teaches reasoning and verification habits; it never hands down a confident
 > "real / fake" verdict.
 >
