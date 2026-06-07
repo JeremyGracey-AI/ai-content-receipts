@@ -18,6 +18,18 @@ export const maxDuration = 30;
 // We never log the image bytes, the safety result, or any analysis output.
 
 export async function POST(req: Request): Promise<NextResponse<AnalyzeResponse>> {
+  // Reject oversized uploads via Content-Length BEFORE parsing the multipart
+  // body, so we never buffer a huge payload into memory just to 413 it. The
+  // post-parse file.size check below still runs as defense in depth (and covers
+  // requests that omit Content-Length).
+  const declaredLength = Number(req.headers.get("content-length") ?? "");
+  if (Number.isFinite(declaredLength) && declaredLength > MAX_UPLOAD_BYTES) {
+    return NextResponse.json(
+      { ok: false, stop: "error", message: "That image is too big." },
+      { status: 413 },
+    );
+  }
+
   let form: FormData;
   try {
     form = await req.formData();
