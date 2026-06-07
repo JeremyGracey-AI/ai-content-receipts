@@ -13,10 +13,12 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.102.0",
     "exifr": "^7.1.3",
+    "heic-convert": "^2.1.0",
     "next": "^16.2.7",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "server-only": "^0.0.1",
+    "sharp": "^0.34.5",
     "text-readability": "^1.1.1"
   },
   "optionalDependencies": {

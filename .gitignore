@@ -34,8 +34,7 @@ yarn-error.log*
 
 # editor / OS
 .idea
-.vscode/*
-!.vscode/mcp.json
+.vscode/
 *.swp
 
 # vitest

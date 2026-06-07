@@ -117,6 +117,14 @@ receipt found" rather than crashing. Per the rules, absence is **never** treated
 as proof of anything. It's kept out of the bundler via `serverExternalPackages`
 in `next.config.mjs`.
 
+## Image formats
+
+Uploads may be JPEG, PNG, WebP, AVIF, TIFF, or HEIC (the iPhone default). The
+safety gate sends images to Claude vision, which accepts JPEG/PNG/WebP/GIF, so
+`lib/vision.ts` transcodes AVIF/TIFF to JPEG with `sharp` and HEIC with
+`heic-convert` before the call. Transcoding happens in memory only; if a file
+cannot be decoded, the app **fails closed** (it stops rather than analyze).
+
 ## Privacy
 
 - Uploads are processed **in memory** and never written to disk.
@@ -183,10 +191,3 @@ The image path needs `ANTHROPIC_API_KEY`. The account/video/audio checklists do
 | **M2** | Accounts/posts: deeper heuristics + automated reverse‑image‑search |
 | **M3** | Video: read credentials; richer checklist; real‑vs‑faked practice library |
 | **M4** | Audio: watermark/credential read; fuller callback‑habit coaching |
-
-## Repository MCP configuration
-
-This repo also carries Hostinger API MCP server config for Claude Code
-([`.mcp.json`](./.mcp.json)) and VS Code ([`.vscode/mcp.json`](./.vscode/mcp.json)).
-The API token is referenced, never committed. See the config files for details;
-set `HOSTINGER_API_TOKEN` in your environment to use it.
