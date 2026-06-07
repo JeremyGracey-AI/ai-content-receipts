@@ -191,10 +191,3 @@ The image path needs `ANTHROPIC_API_KEY`. The account/video/audio checklists do
 | **M2** | Accounts/posts: deeper heuristics + automated reverse‑image‑search |
 | **M3** | Video: read credentials; richer checklist; real‑vs‑faked practice library |
 | **M4** | Audio: watermark/credential read; fuller callback‑habit coaching |
-
-## Repository MCP configuration
-
-This repo also carries Hostinger API MCP server config for Claude Code
-([`.mcp.json`](./.mcp.json)) and VS Code ([`.vscode/mcp.json`](./.vscode/mcp.json)).
-The API token is referenced, never committed. See the config files for details;
-set `HOSTINGER_API_TOKEN` in your environment to use it.
