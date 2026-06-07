@@ -7,22 +7,27 @@ import { Uploader } from "@/components/Uploader";
 import { ResultView } from "@/components/ResultView";
 import { HelpScreen } from "@/components/HelpScreen";
 import { GrownUpNotes } from "@/components/GrownUpNotes";
+import { VoiceCommand } from "@/components/VoiceCommand";
+import { VOICE } from "@/lib/copy/templates";
 
 export default function Home() {
   const [modality, setModality] = useState<Modality>("image");
   const [file, setFile] = useState<File | null>(null);
   const [pending, setPending] = useState(false);
   const [response, setResponse] = useState<AnalyzeResponse | null>(null);
+  const [voiceMsg, setVoiceMsg] = useState<string | null>(null);
 
   function changeModality(m: Modality) {
     setModality(m);
     setFile(null);
     setResponse(null);
+    setVoiceMsg(null);
   }
 
   async function submit() {
     setPending(true);
     setResponse(null);
+    setVoiceMsg(null);
     try {
       const fd = new FormData();
       fd.set("modality", modality);
@@ -40,6 +45,17 @@ export default function Home() {
     } finally {
       setPending(false);
     }
+  }
+
+  // Voice "magic words" trigger. If the user asks for the receipts but an image
+  // is needed and none is picked, we coach instead of analyzing nothing.
+  function handleVoiceTrigger() {
+    if (modality === "image" && !file) {
+      setVoiceMsg(VOICE.needImage);
+      return;
+    }
+    setVoiceMsg(null);
+    void submit();
   }
 
   const canSubmit = modality !== "image" || file !== null;
@@ -78,6 +94,13 @@ export default function Home() {
             {pending ? "Reading…" : submitLabel}
           </button>
         </div>
+
+        <VoiceCommand onTrigger={handleVoiceTrigger} />
+        {voiceMsg ? (
+          <p className="muted" role="status" style={{ marginTop: 8 }}>
+            {voiceMsg}
+          </p>
+        ) : null}
       </div>
 
       <div aria-live="polite">

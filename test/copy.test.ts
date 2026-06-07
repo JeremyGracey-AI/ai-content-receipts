@@ -6,6 +6,7 @@ import {
   HELP_SCREEN,
   ERROR_STOP,
   GROWNUP_NOTES,
+  VOICE,
   imageFallback,
 } from "@/lib/copy/templates";
 import {
@@ -113,6 +114,11 @@ describe("shipped copy reads at 8th grade or lower (spec §5.8)", () => {
     const grade = gradeCopy({
       sentences: [GROWNUP_NOTES.title, ...GROWNUP_NOTES.body],
     });
+    expect(grade).toBeLessThanOrEqual(MAX_FK_GRADE);
+  });
+
+  it("the voice command copy passes", () => {
+    const grade = gradeCopy({ sentences: Object.values(VOICE) });
     expect(grade).toBeLessThanOrEqual(MAX_FK_GRADE);
   });
 

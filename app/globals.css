@@ -258,3 +258,10 @@ ol.steps li {
   color: var(--ink-soft);
   font-size: 0.95rem;
 }
+
+/* Voice command */
+.voice {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}

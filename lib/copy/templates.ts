@@ -127,3 +127,18 @@ export const GROWNUP_NOTES = {
     "If something here worries you or them, stop and talk. You can also reach out to the school.",
   ],
 };
+
+/**
+ * Voice "magic words" copy. Kept short and plain (gated FK <= 8). The mic is
+ * press-to-talk and audio never leaves the device.
+ */
+export const VOICE = {
+  buttonIdle: "Use your voice",
+  buttonListening: "Listening…",
+  hint: "Tap the mic, then say: “Mirror, mirror, in my hand, show me the receipts for this.”",
+  listening: "Listening… say the magic words.",
+  heard: "Got it. Reading now.",
+  notSupported: "Your browser cannot listen yet. Use the buttons instead.",
+  needImage: "Pick a photo first, then say it again.",
+  micDenied: "We need mic access to listen. You can still use the buttons.",
+};

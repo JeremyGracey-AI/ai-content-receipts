@@ -17,6 +17,11 @@ export function gradeText(text: string): number {
     .trim();
   // Need at least one word with a vowel for the formula to mean anything.
   if (!/[a-z]/i.test(cleaned)) return 0;
+  // Flesch-Kincaid is unstable on fragments (a single word like "Listening"
+  // scores ~20). It only means something for a real, multi-word sentence, so
+  // do not penalize short UI labels.
+  const words = cleaned.split(/\s+/).filter(Boolean);
+  if (words.length < 3) return 0;
   const grade = rs.fleschKincaidGrade(cleaned);
   return Number.isFinite(grade) ? grade : 0;
 }
