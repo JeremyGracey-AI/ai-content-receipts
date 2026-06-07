@@ -1,5 +1,6 @@
 import "server-only";
-import { getAnthropic, toImageMediaType } from "@/lib/anthropic";
+import { getAnthropic } from "@/lib/anthropic";
+import { prepareImageForVision } from "@/lib/vision";
 import { SAFETY_MODEL } from "@/lib/config";
 
 // The content-safety gate (spec §6). Runs FIRST, before any analysis or modality
@@ -41,6 +42,11 @@ export async function screenForSafety(
   mime: string,
 ): Promise<SafetyResult> {
   try {
+    // Make the bytes vision-safe (transcode AVIF/TIFF/HEIC to JPEG). If we
+    // cannot, we cannot safety-check the image — fail closed.
+    const prepared = await prepareImageForVision(buffer, mime);
+    if (!prepared) return "error";
+
     const client = getAnthropic();
     const response = await client.messages.create({
       model: SAFETY_MODEL,
@@ -57,8 +63,8 @@ export async function screenForSafety(
               type: "image",
               source: {
                 type: "base64",
-                media_type: toImageMediaType(mime),
-                data: buffer.toString("base64"),
+                media_type: prepared.mediaType,
+                data: prepared.data,
               },
             },
             {

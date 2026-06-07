@@ -17,22 +17,3 @@ export function getAnthropic(): Anthropic {
   }
   return client;
 }
-
-/** Map a JS image mime type to the media_type the Messages API expects. */
-export function toImageMediaType(
-  mime: string,
-): "image/jpeg" | "image/png" | "image/webp" | "image/gif" {
-  // The vision API accepts jpeg/png/webp/gif. For other accepted upload types
-  // (avif/tiff/heic) we send as the closest supported type label; the bytes are
-  // still passed through and the model is robust to the label for safety triage.
-  switch (mime) {
-    case "image/png":
-      return "image/png";
-    case "image/webp":
-      return "image/webp";
-    case "image/gif":
-      return "image/gif";
-    default:
-      return "image/jpeg";
-  }
-}

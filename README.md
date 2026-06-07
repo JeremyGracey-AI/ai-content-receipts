@@ -117,6 +117,14 @@ receipt found" rather than crashing. Per the rules, absence is **never** treated
 as proof of anything. It's kept out of the bundler via `serverExternalPackages`
 in `next.config.mjs`.
 
+## Image formats
+
+Uploads may be JPEG, PNG, WebP, AVIF, TIFF, or HEIC (the iPhone default). The
+safety gate sends images to Claude vision, which accepts JPEG/PNG/WebP/GIF, so
+`lib/vision.ts` transcodes AVIF/TIFF to JPEG with `sharp` and HEIC with
+`heic-convert` before the call. Transcoding happens in memory only; if a file
+cannot be decoded, the app **fails closed** (it stops rather than analyze).
+
 ## Privacy
 
 - Uploads are processed **in memory** and never written to disk.
